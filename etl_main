@@ -1,0 +1,41 @@
+
+##################### etl.py ###################### 
+###Import Variables from connections.py
+
+#Connections String
+from connections import connmssql, connpg 
+
+#Import Queries from queries.py
+from queries import sqlserver_extract,postgre_insert
+
+
+###SQL Server Extract
+try:
+ cursor = connmssql.cursor()
+ cursor.execute(sqlserver_extract)
+except Exception as error:
+ print('SQL Server Extract Error')
+ exit(1)
+else:
+ print('SQL Server Extract SUCESS')
+
+rows = cursor.fetchall()
+
+cursor.close()
+connmssql.close()
+
+print('SQL Server Extract SUCESS')
+
+###PostGreSQL Insert
+try:
+ target_cursor = connpg.cursor()
+ target_cursor.executemany(postgre_insert, rows) 
+ connpg.commit() 
+except Exception as error:
+ print('Poelse:stgreSQL Insert Error')
+ exit(1)
+else:
+ print('PostgreSQL Insert SUCESS')
+
+cursor.close()
+connpg.close()
