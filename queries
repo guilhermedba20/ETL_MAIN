@@ -1,0 +1,6 @@
+#SQL Server Extract
+sqlserver_extract = "SELECT top 10 Ticker as T, Descricao as D, Tipo as I FROM ExchangeNyse"
+
+#PostgreSQL Insert
+postgre_insert = """INSERT INTO  exchangenysepg (ticker, descricao, tipo) VALUES (%(T)s, %(D)s, %(T)s)"""
+
